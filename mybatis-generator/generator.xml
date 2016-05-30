@@ -14,20 +14,20 @@
 			<property name="forceBigDecimals" value="false" />
 		</javaTypeResolver>
 		<!-- model package and location -->
-		<javaModelGenerator targetPackage="rml.model" targetProject="E:\git\mybatis">
+		<javaModelGenerator targetPackage="com.racing.model" targetProject="E:\git\ssm\src\main\java">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
 		</javaModelGenerator>
 		<!-- mapping package and location -->
-		<sqlMapGenerator targetPackage="rml.mapping" targetProject="E:\git\mybatis">
+		<sqlMapGenerator targetPackage="com.racing.dao.mapping" targetProject="E:\git\ssm\src\main\java">
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
 		<!-- dao package and location -->
-		<javaClientGenerator type="XMLMAPPER" targetPackage="rml.dao" targetProject="E:\git\mybatis">
+		<javaClientGenerator type="XMLMAPPER" targetPackage="com.racing.dao" targetProject="E:\git\ssm\src\main\java">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 		<!-- table name,  change tableName and domainObjectName  -->
-		<table tableName="nc_qc_user" domainObjectName="User" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
+		<table tableName="NC_QC_ACCOUNTTRANSDETAIL" domainObjectName="AccountTransDetail" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="true" enableDeleteByPrimaryKey="true" enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true"/>
 		
 	</context>
 </generatorConfiguration>
