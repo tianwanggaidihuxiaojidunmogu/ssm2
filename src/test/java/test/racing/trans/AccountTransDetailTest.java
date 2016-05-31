@@ -41,6 +41,5 @@ public class AccountTransDetailTest {
 		accountTransDetail.setCreateTime(new Date());
 		accountTransDetail.setLastUpdateTime(new Date());
 		accountTransDetailService.insert(accountTransDetail);
-		System.out.println();
 	}
 }
