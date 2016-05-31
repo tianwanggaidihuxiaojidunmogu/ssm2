@@ -1,4 +1,4 @@
-package com.racing.dao;
+package com.racing.persistence;
 
 import com.racing.model.AccountTransDetail;
 import com.racing.mybatis.mapper.BaseMapper;
