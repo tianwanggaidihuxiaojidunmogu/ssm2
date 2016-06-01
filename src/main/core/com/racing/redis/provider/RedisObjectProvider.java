@@ -1,4 +1,4 @@
-package com.racing.redis.serializable;
+package com.racing.redis.provider;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -10,21 +10,22 @@ import redis.clients.jedis.Jedis;
 
 import com.racing.redis.annotation.RedisKey;
 import com.racing.redis.exception.RedisException;
+import com.racing.redis.serializable.ObjectSerializable;
 
 /**
  * Redis 对象存储
  * 
  * @author liupeng
  */
-public class RedisObjectSerializable {
+public class RedisObjectProvider implements RedisProvider {
 
 	private final String DEFAULT_CHARSET = "UTF-8";
 
-	public RedisObjectSerializable() {
+	public RedisObjectProvider() {
 
 	}
 
-	public RedisObjectSerializable(Jedis jedis) {
+	public RedisObjectProvider(Jedis jedis) {
 		this.jedis = jedis;
 	}
 

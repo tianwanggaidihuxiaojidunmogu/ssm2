@@ -4,7 +4,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
-import com.racing.redis.serializable.RedisObjectSerializable;
+import com.racing.redis.provider.RedisObjectProvider;
 
 public class RedisClient {
 
@@ -21,7 +21,7 @@ public class RedisClient {
 		Test test=new Test();
 		test.setName("username");
 		test.setEmail("aaa@qq.com");
-		RedisObjectSerializable redisObjectSerializable=new RedisObjectSerializable(jedis);
+		RedisObjectProvider redisObjectSerializable=new RedisObjectProvider(jedis);
 		System.out.println(redisObjectSerializable.setObject(test));
 		
 		Test t=redisObjectSerializable.getSerializableObject("username", Test.class);
