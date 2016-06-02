@@ -1,5 +1,10 @@
 package test.racing.redis;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Test;
+
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -8,7 +13,8 @@ import com.racing.redis.provider.RedisObjectProvider;
 
 public class RedisClient {
 
-	public static void main(String[] args) throws Exception{
+	@Test
+	public void redisTest() throws Exception{
 		// 池基本配置
 		JedisPoolConfig config = new JedisPoolConfig();
 		config.setMaxTotal(20);
@@ -18,15 +24,28 @@ public class RedisClient {
 		JedisPool jedisPool=new JedisPool(config, "10.1.200.122", 6379,10000,"redis");
 		
 		Jedis jedis=jedisPool.getResource();
-		Test test=new Test();
-		test.setName("username");
-		test.setEmail("aaa@qq.com");
 		RedisObjectProvider redisObjectSerializable=new RedisObjectProvider(jedis);
-		System.out.println(redisObjectSerializable.setObject(test));
 		
-		Test t=redisObjectSerializable.getSerializableObject("username", Test.class);
-		System.out.println(t.getName());
-		System.out.println(t.getEmail());
+		List<String> list=new ArrayList<String>();
+		list.add("aaaaaa");
+		list.add("bbbbbb");
+		list.add("cccccc");
+		list.add("dddddd");
+		list.add("eeeeee");
+		list.add("ffffff");
+		System.out.println(redisObjectSerializable.setObject("list",list));
+		List<String> lista=redisObjectSerializable.getSerializableObject("list", List.class);
+		for(String s:lista){
+			System.out.println(s);
+		}
+//		Test test=new Test();
+//		test.setName("username");
+//		test.setEmail("aaa@qq.com");
+//		System.out.println(redisObjectSerializable.setObject(test));
+//		
+//		Test t=redisObjectSerializable.getSerializableObject("username", Test.class);
+//		System.out.println(t.getName());
+//		System.out.println(t.getEmail());
 //		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 //		ObjectOutputStream oos = new ObjectOutputStream(bos);
 //		oos.writeObject(test);

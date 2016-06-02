@@ -8,10 +8,12 @@ import javax.annotation.Resource;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.racing.model.AccountTransDetail;
+import com.racing.redis.config.RedisConfig;
 import com.racing.service.AccountTransDetailService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -21,27 +23,32 @@ public class AccountTransDetailTest {
 	@Resource
 	AccountTransDetailService accountTransDetailService;
 	
+	@Resource
+	RedisConfig redisConfig;
+	
 	@Test
 	public void insert(){
-		AccountTransDetail accountTransDetail=new AccountTransDetail();
-		Method[] methods=AccountTransDetail.class.getDeclaredMethods();
-		for(Method method:methods){
-			if(method.getName().indexOf("set")==0 && method.getParameterTypes().length==1 && method.getParameterTypes()[0].getName().equals(String.class.getName())){
-				try {
-					method.invoke(accountTransDetail, "a");
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		accountTransDetail.setCreateTime(new Date());
-		accountTransDetail.setLastUpdateTime(new Date());
-		accountTransDetailService.insert(accountTransDetail);
+//		AccountTransDetail accountTransDetail=new AccountTransDetail();
+//		Method[] methods=AccountTransDetail.class.getDeclaredMethods();
+//		for(Method method:methods){
+//			if(method.getName().indexOf("set")==0 && method.getParameterTypes().length==1 && method.getParameterTypes()[0].getName().equals(String.class.getName())){
+//				try {
+//					method.invoke(accountTransDetail, "a");
+//				} catch (IllegalArgumentException e) {
+//					e.printStackTrace();
+//				} catch (IllegalAccessException e) {
+//					e.printStackTrace();
+//				} catch (InvocationTargetException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		}
+//		accountTransDetail.setCreateTime(new Date());
+//		accountTransDetail.setLastUpdateTime(new Date());
+//		accountTransDetailService.insert(accountTransDetail);
 		
+		
+		System.out.println(redisConfig.getHost());
 		
 		/////////////
 	}
