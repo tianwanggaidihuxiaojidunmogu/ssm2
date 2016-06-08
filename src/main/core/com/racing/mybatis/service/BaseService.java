@@ -1,6 +1,6 @@
 package com.racing.mybatis.service;
 
-import com.racing.model.AccountTransDetail;
+import com.racing.mybatis.mapper.BaseEntity;
 
 
 public interface BaseService<T> {
@@ -10,7 +10,7 @@ public interface BaseService<T> {
 
     int insertSelective(T record);
 
-    AccountTransDetail selectByPrimaryKey(String id);
+    BaseEntity selectByPrimaryKey(String id);
 
     int updateByPrimaryKeySelective(T record);
 

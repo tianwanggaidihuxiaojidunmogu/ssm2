@@ -2,7 +2,7 @@ package com.racing.mybatis.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.racing.model.AccountTransDetail;
+import com.racing.mybatis.mapper.BaseEntity;
 import com.racing.mybatis.mapper.BaseMapper;
 import com.racing.mybatis.service.BaseService;
 
@@ -27,7 +27,7 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	}
 
 	@Override
-	public AccountTransDetail selectByPrimaryKey(String id) {
+	public BaseEntity selectByPrimaryKey(String id) {
 		return baseMapper.selectByPrimaryKey(id);
 	}
 
