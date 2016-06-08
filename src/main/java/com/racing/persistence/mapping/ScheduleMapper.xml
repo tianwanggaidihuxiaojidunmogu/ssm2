@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.racing.persistence.ScheduleMapper" >
+  <resultMap id="BaseResultMap" type="com.racing.model.Schedule" >
+    <id column="JOB_ID" property="jobId" jdbcType="VARCHAR" />
+    <result column="JOB_NAME" property="jobName" jdbcType="VARCHAR" />
+    <result column="JOB_GROUP" property="jobGroup" jdbcType="VARCHAR" />
+    <result column="JOB_STATUS" property="jobStatus" jdbcType="VARCHAR" />
+    <result column="JOB_CLASS" property="jobClass" jdbcType="VARCHAR" />
+    <result column="JOB_CRON" property="jobCron" jdbcType="VARCHAR" />
+    <result column="JOB_DESCRIPTION" property="jobDescription" jdbcType="VARCHAR" />
+    <result column="JOB_METHOD" property="jobMethod" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    JOB_ID, JOB_NAME, JOB_GROUP, JOB_STATUS, JOB_CLASS, JOB_CRON, JOB_DESCRIPTION, JOB_METHOD
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SCHEDULE
+    where JOB_ID = #{jobId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_SCHEDULE
+    where JOB_ID = #{jobId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.racing.model.Schedule" >
+    insert into T_SCHEDULE (JOB_ID, JOB_NAME, JOB_GROUP, 
+      JOB_STATUS, JOB_CLASS, JOB_CRON, 
+      JOB_DESCRIPTION, JOB_METHOD)
+    values (#{jobId,jdbcType=VARCHAR}, #{jobName,jdbcType=VARCHAR}, #{jobGroup,jdbcType=VARCHAR}, 
+      #{jobStatus,jdbcType=DECIMAL}, #{jobClass,jdbcType=VARCHAR}, #{jobCron,jdbcType=VARCHAR}, 
+      #{jobDescription,jdbcType=VARCHAR}, #{jobMethod,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.racing.model.Schedule" >
+    insert into T_SCHEDULE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="jobId != null" >
+        JOB_ID,
+      </if>
+      <if test="jobName != null" >
+        JOB_NAME,
+      </if>
+      <if test="jobGroup != null" >
+        JOB_GROUP,
+      </if>
+      <if test="jobStatus != null" >
+        JOB_STATUS,
+      </if>
+      <if test="jobClass != null" >
+        JOB_CLASS,
+      </if>
+      <if test="jobCron != null" >
+        JOB_CRON,
+      </if>
+      <if test="jobDescription != null" >
+        JOB_DESCRIPTION,
+      </if>
+      <if test="jobMethod != null" >
+        JOB_METHOD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="jobId != null" >
+        #{jobId,jdbcType=VARCHAR},
+      </if>
+      <if test="jobName != null" >
+        #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobGroup != null" >
+        #{jobGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="jobStatus != null" >
+        #{jobStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="jobClass != null" >
+        #{jobClass,jdbcType=VARCHAR},
+      </if>
+      <if test="jobCron != null" >
+        #{jobCron,jdbcType=VARCHAR},
+      </if>
+      <if test="jobDescription != null" >
+        #{jobDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="jobMethod != null" >
+        #{jobMethod,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.racing.model.Schedule" >
+    update T_SCHEDULE
+    <set >
+      <if test="jobName != null" >
+        JOB_NAME = #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobGroup != null" >
+        JOB_GROUP = #{jobGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="jobStatus != null" >
+        JOB_STATUS = #{jobStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="jobClass != null" >
+        JOB_CLASS = #{jobClass,jdbcType=VARCHAR},
+      </if>
+      <if test="jobCron != null" >
+        JOB_CRON = #{jobCron,jdbcType=VARCHAR},
+      </if>
+      <if test="jobDescription != null" >
+        JOB_DESCRIPTION = #{jobDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="jobMethod != null" >
+        JOB_METHOD = #{jobMethod,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where JOB_ID = #{jobId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.racing.model.Schedule" >
+    update T_SCHEDULE
+    set JOB_NAME = #{jobName,jdbcType=VARCHAR},
+      JOB_GROUP = #{jobGroup,jdbcType=VARCHAR},
+      JOB_STATUS = #{jobStatus,jdbcType=DECIMAL},
+      JOB_CLASS = #{jobClass,jdbcType=VARCHAR},
+      JOB_CRON = #{jobCron,jdbcType=VARCHAR},
+      JOB_DESCRIPTION = #{jobDescription,jdbcType=VARCHAR},
+      JOB_METHOD = #{jobMethod,jdbcType=VARCHAR}
+    where JOB_ID = #{jobId,jdbcType=VARCHAR}
+  </update>
+</mapper>
