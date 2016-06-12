@@ -24,7 +24,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Component;
 
-import com.racing.CustomLinkedBlockingQueue;
 import com.racing.model.Schedule;
 import com.racing.service.ScheduleService;
 
@@ -33,7 +32,7 @@ public class InitJob {
 
 	private final Logger logger = Logger.getLogger(InitJob.class);
 
-	static BlockingQueue<Schedule> scheduleQueues = new CustomLinkedBlockingQueue<Schedule>();
+	static BlockingQueue<Schedule> scheduleQueues = new com.racing.util.concurrent.CustomLinkedBlockingQueue<Schedule>();
 	static List<Schedule> RUN_SCHEDULE = new ArrayList<Schedule>();
 
 	@Autowired

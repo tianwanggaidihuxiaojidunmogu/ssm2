@@ -1,4 +1,4 @@
-package com.racing.persistence;
+package com.racing.persistence.schedule;
 
 import java.util.List;
 

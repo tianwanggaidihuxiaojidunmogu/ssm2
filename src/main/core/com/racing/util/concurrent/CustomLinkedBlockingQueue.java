@@ -1,4 +1,4 @@
-package com.racing;
+package com.racing.util.concurrent;
 
 import java.util.concurrent.LinkedBlockingQueue;
 

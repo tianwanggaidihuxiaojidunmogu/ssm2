@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.racing.model.Schedule;
 import com.racing.mybatis.service.impl.BaseServiceImpl;
-import com.racing.persistence.ScheduleMapper;
+import com.racing.persistence.schedule.ScheduleMapper;
 import com.racing.service.ScheduleService;
 
 @Service
