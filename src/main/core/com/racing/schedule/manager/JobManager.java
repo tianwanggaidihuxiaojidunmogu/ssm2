@@ -1,4 +1,4 @@
-package com.racing.schedule;
+package com.racing.schedule.manager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,6 @@ import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Component;
 
@@ -28,12 +27,9 @@ import com.racing.model.Schedule;
 import com.racing.service.ScheduleService;
 
 @Component
-public class InitJob {
+public class JobManager {
 
-	private final Logger logger = Logger.getLogger(InitJob.class);
-
-	static BlockingQueue<Schedule> scheduleQueues = new com.racing.util.concurrent.CustomLinkedBlockingQueue<Schedule>();
-	static List<Schedule> RUN_SCHEDULE = new ArrayList<Schedule>();
+	private final Logger logger = Logger.getLogger(JobManager.class);
 
 	@Autowired
 	SchedulerFactoryBean schedulerFactoryBean;
@@ -41,21 +37,28 @@ public class InitJob {
 	@Autowired
 	ScheduleService scheduleService;
 
-	@Scheduled(cron = "*/5 * * * * ?")
 	public void init() throws SchedulerException {
+		logger.info("Scheduler init...");
 		List<Schedule> schedules = scheduleService.selectByJobStatus("1");
 
 		logger.info(String.format("query waiting for running schedules size : %d", schedules.size()));
 
 		for (Schedule schedule : schedules) {
-			scheduleQueues.offer(schedule);
-			if (getRunningJob().contains(schedule) && "0".equals(schedule.getIsUpdate()))
-				continue;
+			try {
+				if (getRunningJob().contains(schedule))
+					continue;
+				addJob(schedule);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+				scheduleService.exception(schedule);
+			}
 		}
 
-		logger.info(String.format("the waiting for running schedule queues size : %d", scheduleQueues.size()));
-		if (scheduleQueues.size() > 0)
-			addJobs(scheduleQueues);
+	}
+
+	public void shutdown() throws SchedulerException {
+		logger.info("Scheduler shutdown...");
+		this.schedulerFactoryBean.getScheduler().shutdown();
 	}
 
 	/**
@@ -217,7 +220,7 @@ public class InitJob {
 		if (schedule == null)
 			return;
 		Scheduler scheduler = schedulerFactoryBean.getScheduler();
-		logger.info(scheduler + ".......................................................................................add");
+		logger.info(String.format("add schedule > %s,%s", schedule.getJobName(), schedule.getJobGroup()));
 		TriggerKey triggerKey = TriggerKey.triggerKey(schedule.getJobName(), schedule.getJobGroup());
 
 		CronTrigger trigger = (CronTrigger) scheduler.getTrigger(triggerKey);

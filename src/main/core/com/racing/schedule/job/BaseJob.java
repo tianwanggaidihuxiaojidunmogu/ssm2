@@ -1,4 +1,4 @@
-package com.racing.schedule;
+package com.racing.schedule.job;
 
 import java.lang.reflect.Method;
 

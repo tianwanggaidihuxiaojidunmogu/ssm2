@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.racing.model.Schedule;
-import com.racing.schedule.InitJob;
+import com.racing.schedule.manager.JobManager;
 import com.racing.service.ScheduleService;
 import com.racing.web.controller.BaseController;
 
@@ -24,7 +24,7 @@ public class ScheduleController extends BaseController {
 	ScheduleService scheduleService;
 
 	@Autowired
-	InitJob initJob;
+	JobManager jobManager;
 
 	@RequestMapping(value = "/{operate}/{scheduleJobId}", method = RequestMethod.GET)
 	public @ResponseBody Map<String, Object> pauseSchedule(@PathVariable String operate, @PathVariable String scheduleJobId) {
@@ -37,13 +37,13 @@ public class ScheduleController extends BaseController {
 				return result;
 			}
 			if ("pause".equals(operate)) {
-				initJob.pauseJob(schedule);
+				jobManager.pauseJob(schedule);
 			} else if ("resume".equals(operate)) {
-				initJob.resumeJob(schedule);
+				jobManager.resumeJob(schedule);
 			} else if ("stop".equals(operate)) {
-				initJob.deleteJob(schedule);
+				jobManager.deleteJob(schedule);
 			} else if ("run".equals(operate)) {
-				initJob.runAJobNow(schedule);
+				jobManager.runAJobNow(schedule);
 			} else {
 				result.put(RETURN_CODE, ERROR);
 				result.put(RETURN_MSG, IDENTIFIER_INVALID);
@@ -59,6 +59,11 @@ public class ScheduleController extends BaseController {
 
 		}
 		return result;
+	}
+	
+	@RequestMapping(value="/init")
+	public void init() throws SchedulerException{
+		jobManager.init();
 	}
 
 }
