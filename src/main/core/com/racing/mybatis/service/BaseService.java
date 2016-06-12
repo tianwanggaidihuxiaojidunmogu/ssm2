@@ -1,6 +1,5 @@
 package com.racing.mybatis.service;
 
-import com.racing.mybatis.mapper.BaseEntity;
 
 
 public interface BaseService<T> {
@@ -10,7 +9,7 @@ public interface BaseService<T> {
 
     int insertSelective(T record);
 
-    BaseEntity selectByPrimaryKey(String id);
+    T selectByPrimaryKey(String id);
 
     int updateByPrimaryKeySelective(T record);
 

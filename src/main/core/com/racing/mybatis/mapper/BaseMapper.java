@@ -7,7 +7,7 @@ public abstract interface BaseMapper<T> {
 
 	int insertSelective(T record);
 
-	BaseEntity selectByPrimaryKey(String id);
+	T selectByPrimaryKey(String id);
 
 	int updateByPrimaryKey(T record);
 

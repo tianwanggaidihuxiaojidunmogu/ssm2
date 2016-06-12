@@ -3,10 +3,12 @@ package com.racing.schedule;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.BlockingQueue;
 
 import org.apache.log4j.Logger;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
+import org.quartz.Job;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
@@ -22,23 +24,41 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Component;
 
+import com.racing.CustomLinkedBlockingQueue;
 import com.racing.model.Schedule;
+import com.racing.service.ScheduleService;
 
 @Component
 public class InitJob {
 
 	private final Logger logger = Logger.getLogger(InitJob.class);
 
+	static BlockingQueue<Schedule> scheduleQueues = new CustomLinkedBlockingQueue<Schedule>();
+	static List<Schedule> RUN_SCHEDULE = new ArrayList<Schedule>();
+
 	@Autowired
 	SchedulerFactoryBean schedulerFactoryBean;
 
+	@Autowired
+	ScheduleService scheduleService;
+
 	@Scheduled(cron = "*/5 * * * * ?")
-	public void init() {
-		logger.info("test.................");
-		
-		
+	public void init() throws SchedulerException {
+		List<Schedule> schedules = scheduleService.selectByJobStatus("1");
+
+		logger.info(String.format("query waiting for running schedules size : %d", schedules.size()));
+
+		for (Schedule schedule : schedules) {
+			scheduleQueues.offer(schedule);
+			if (getRunningJob().contains(schedule) && "0".equals(schedule.getIsUpdate()))
+				continue;
+		}
+
+		logger.info(String.format("the waiting for running schedule queues size : %d", scheduleQueues.size()));
+		if (scheduleQueues.size() > 0)
+			addJobs(scheduleQueues);
 	}
-	
+
 	/**
 	 * 获取所有计划中的任务列表
 	 * 
@@ -53,6 +73,7 @@ public class InitJob {
 		for (JobKey jobKey : jobKeys) {
 			List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
 			for (Trigger trigger : triggers) {
+				logger.info(jobKey.getName());
 				Schedule job = new Schedule();
 				job.setJobName(jobKey.getName());
 				job.setJobGroup(jobKey.getGroup());
@@ -110,6 +131,7 @@ public class InitJob {
 		Scheduler scheduler = schedulerFactoryBean.getScheduler();
 		JobKey jobKey = JobKey.jobKey(scheduleJob.getJobName(), scheduleJob.getJobGroup());
 		scheduler.pauseJob(jobKey);
+		scheduleService.pause(scheduleJob);
 	}
 
 	/**
@@ -122,6 +144,7 @@ public class InitJob {
 		Scheduler scheduler = schedulerFactoryBean.getScheduler();
 		JobKey jobKey = JobKey.jobKey(scheduleJob.getJobName(), scheduleJob.getJobGroup());
 		scheduler.resumeJob(jobKey);
+		scheduleService.run(scheduleJob);
 	}
 
 	/**
@@ -134,7 +157,7 @@ public class InitJob {
 		Scheduler scheduler = schedulerFactoryBean.getScheduler();
 		JobKey jobKey = JobKey.jobKey(scheduleJob.getJobName(), scheduleJob.getJobGroup());
 		scheduler.deleteJob(jobKey);
-
+		scheduleService.stop(scheduleJob);
 	}
 
 	/**
@@ -168,37 +191,55 @@ public class InitJob {
 
 		scheduler.rescheduleJob(triggerKey, trigger);
 	}
-	
+
+	public void addJobs(BlockingQueue<Schedule> scheduleQueues) {
+		Schedule schedule = null;
+		while ((schedule = scheduleQueues.peek()) != null) {
+			try {
+				addJob(schedule);
+				scheduleService.run(schedule);
+			} catch (Exception e) {
+				e.printStackTrace();
+				scheduleService.exception(schedule);
+			}
+			scheduleQueues.remove(schedule);
+		}
+	}
+
 	/**
 	 * 添加任务
 	 * 
 	 * @param scheduleJob
 	 * @throws SchedulerException
+	 * @throws ClassNotFoundException
 	 */
-	public void addJob(Schedule job) throws SchedulerException {
-		if(job==null)
+	@SuppressWarnings("unchecked")
+	public void addJob(Schedule schedule) throws SchedulerException, ClassNotFoundException {
+		if (schedule == null)
 			return;
 		Scheduler scheduler = schedulerFactoryBean.getScheduler();
 		logger.info(scheduler + ".......................................................................................add");
-		TriggerKey triggerKey = TriggerKey.triggerKey(job.getJobName(), job.getJobGroup());
+		TriggerKey triggerKey = TriggerKey.triggerKey(schedule.getJobName(), schedule.getJobGroup());
 
 		CronTrigger trigger = (CronTrigger) scheduler.getTrigger(triggerKey);
 
 		// 不存在，创建一个
 		if (null == trigger) {
+			JobBuilder builder = JobBuilder.newJob().withIdentity(schedule.getJobName(), schedule.getJobGroup());
+			builder.ofType((Class<? extends Job>) Class.forName(schedule.getJobClass()));
+			builder.withDescription(schedule.getJobDescription());
+			JobDetail jobDetail = builder.build();
 
-			JobDetail jobDetail = JobBuilder.newJob().withIdentity(job.getJobName(), job.getJobGroup()).build();
+			jobDetail.getJobDataMap().put("scheduleJob", schedule);
 
-			jobDetail.getJobDataMap().put("scheduleJob", job);
+			CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(schedule.getJobCron());
 
-			CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(job.getJobCron());
-
-			trigger = TriggerBuilder.newTrigger().withIdentity(job.getJobName(), job.getJobGroup()).withSchedule(scheduleBuilder).build();
+			trigger = TriggerBuilder.newTrigger().withIdentity(schedule.getJobName(), schedule.getJobGroup()).withSchedule(scheduleBuilder).build();
 
 			scheduler.scheduleJob(jobDetail, trigger);
 		} else {
 			// Trigger已存在，那么更新相应的定时设置
-			CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(job.getJobCron());
+			CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(schedule.getJobCron());
 
 			// 按新的cronExpression表达式重新构建trigger
 			trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(scheduleBuilder).build();
@@ -207,6 +248,5 @@ public class InitJob {
 			scheduler.rescheduleJob(triggerKey, trigger);
 		}
 	}
-
 
 }

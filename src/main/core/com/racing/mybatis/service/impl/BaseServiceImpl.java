@@ -2,7 +2,6 @@ package com.racing.mybatis.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.racing.mybatis.mapper.BaseEntity;
 import com.racing.mybatis.mapper.BaseMapper;
 import com.racing.mybatis.service.BaseService;
 
@@ -27,7 +26,7 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	}
 
 	@Override
-	public BaseEntity selectByPrimaryKey(String id) {
+	public T selectByPrimaryKey(String id) {
 		return baseMapper.selectByPrimaryKey(id);
 	}
 
