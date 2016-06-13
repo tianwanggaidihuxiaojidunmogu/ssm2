@@ -1,25 +1,31 @@
 package com.racing.model;
 
 import com.racing.mybatis.mapper.BaseEntity;
+import com.racing.sql.DBField;
+import com.racing.sql.DBIndex;
+import com.racing.sql.DBTable;
 
+@DBTable(remark = "定时计划任务")
 public class Schedule extends BaseEntity {
+
+	@DBIndex
+	@DBField(length = 100, remark = "任务ID")
 	private String jobId;
-
+	@DBField(length = 100, remark = "任务名称")
 	private String jobName;
-
+	@DBField(length = 100, remark = "任务分组")
 	private String jobGroup;
-
-	// 0未启动 1已启动 2加入中 3已暂停 4已停止 9异常
+	@DBField(length = 1, remark = "任务状态 0未启动 1已启动 2加入中 3已暂停 4已停止 9异常")
 	private String jobStatus;
-
+	@DBField(length = 100, remark = "任务调用类全路径")
 	private String jobClass;
-
+	@DBField(length = 100, remark = "CRON表达式")
 	private String jobCron;
-
+	@DBField(length = 255, remark = "描述")
 	private String jobDescription;
-
+	@DBField(length = 100, remark = "调用方法名称")
 	private String jobMethod;
-
+	@DBField(length = 1, remark = "是否更新")
 	private String isUpdate;
 
 	public String getJobId() {

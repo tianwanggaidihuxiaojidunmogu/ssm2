@@ -29,6 +29,9 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 		</property>
 	</bean>
 
+	<mvc:resources location="/assets/admin/**" mapping="/assets/admin/" />
+	<mvc:resources location="/assets/global/**" mapping="/assets/global/" />
+	<mvc:default-servlet-handler />
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
 		p:prefix="/" p:suffix=".jsp" />

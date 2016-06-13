@@ -62,8 +62,19 @@ public class ScheduleController extends BaseController {
 	}
 	
 	@RequestMapping(value="/init")
-	public void init() throws SchedulerException{
-		jobManager.init();
+	public @ResponseBody Map<String,Object> init(){
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			jobManager.init();
+		} catch (SchedulerException e) {
+			e.printStackTrace();
+			result.put(RETURN_CODE, ERROR);
+			result.put(RETURN_MSG, "初始化失败!");
+			return result;
+		}
+		result.put(RETURN_CODE, SUCCESS);
+		result.put(RETURN_MSG, SUCCESS_MSG);
+		return result;
 	}
 
 }
