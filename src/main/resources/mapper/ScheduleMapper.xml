@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.racing.persistence.ScheduleMapper">
-	<resultMap id="BaseResultMap" type="com.racing.model.Schedule">
+<mapper namespace="com.racing.persistence.schedule.ScheduleMapper">
+	<resultMap id="BaseResultMap" type="com.racing.model.schedule.Schedule">
 		<id column="JOB_ID" property="jobId" jdbcType="VARCHAR" />
 		<result column="JOB_NAME" property="jobName" jdbcType="VARCHAR" />
 		<result column="JOB_GROUP" property="jobGroup" jdbcType="VARCHAR" />
@@ -14,7 +14,8 @@
 		<result column="IS_UPDATE" property="isUpdate" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		JOB_ID, JOB_NAME, JOB_GROUP, JOB_STATUS, JOB_CLASS, JOB_CRON,
+		JOB_ID, JOB_NAME, JOB_GROUP, JOB_STATUS, JOB_CLASS,
+		JOB_CRON,
 		JOB_DESCRIPTION, JOB_METHOD,
 		IS_UPDATE
 	</sql>
@@ -33,22 +34,26 @@
 		where JOB_ID = #{jobId,jdbcType=VARCHAR}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-		delete from T_SCHEDULE
+		delete from
+		T_SCHEDULE
 		where JOB_ID = #{jobId,jdbcType=VARCHAR}
 	</delete>
-	<insert id="insert" parameterType="com.racing.model.Schedule">
-		insert into T_SCHEDULE (JOB_ID, JOB_NAME, JOB_GROUP,
+	<insert id="insert" parameterType="com.racing.model.schedule.Schedule">
+		insert into T_SCHEDULE
+		(JOB_ID, JOB_NAME, JOB_GROUP,
 		JOB_STATUS, JOB_CLASS, JOB_CRON,
 		JOB_DESCRIPTION, JOB_METHOD, IS_UPDATE
 		)
-		values (#{jobId,jdbcType=VARCHAR}, #{jobName,jdbcType=VARCHAR},
+		values
+		(#{jobId,jdbcType=VARCHAR}, #{jobName,jdbcType=VARCHAR},
 		#{jobGroup,jdbcType=VARCHAR},
-		#{jobStatus,jdbcType=VARCHAR}, #{jobClass,jdbcType=VARCHAR}, #{jobCron,jdbcType=VARCHAR},
+		#{jobStatus,jdbcType=VARCHAR},
+		#{jobClass,jdbcType=VARCHAR}, #{jobCron,jdbcType=VARCHAR},
 		#{jobDescription,jdbcType=VARCHAR}, #{jobMethod,jdbcType=VARCHAR},
 		#{isUpdate,jdbcType=VARCHAR}
 		)
 	</insert>
-	<insert id="insertSelective" parameterType="com.racing.model.Schedule">
+	<insert id="insertSelective" parameterType="com.racing.model.schedule.Schedule">
 		insert into T_SCHEDULE
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="jobId != null">
@@ -109,7 +114,7 @@
 			</if>
 		</trim>
 	</insert>
-	<update id="updateByPrimaryKeySelective" parameterType="com.racing.model.Schedule">
+	<update id="updateByPrimaryKeySelective" parameterType="com.racing.model.schedule.Schedule">
 		update T_SCHEDULE
 		<set>
 			<if test="jobName != null">
@@ -139,15 +144,19 @@
 		</set>
 		where JOB_ID = #{jobId,jdbcType=VARCHAR}
 	</update>
-	<update id="updateByPrimaryKey" parameterType="com.racing.model.Schedule">
+	<update id="updateByPrimaryKey" parameterType="com.racing.model.schedule.Schedule">
 		update T_SCHEDULE
 		set JOB_NAME = #{jobName,jdbcType=VARCHAR},
-		JOB_GROUP = #{jobGroup,jdbcType=VARCHAR},
-		JOB_STATUS = #{jobStatus,jdbcType=VARCHAR},
-		JOB_CLASS = #{jobClass,jdbcType=VARCHAR},
+		JOB_GROUP =
+		#{jobGroup,jdbcType=VARCHAR},
+		JOB_STATUS =
+		#{jobStatus,jdbcType=VARCHAR},
+		JOB_CLASS =
+		#{jobClass,jdbcType=VARCHAR},
 		JOB_CRON = #{jobCron,jdbcType=VARCHAR},
 		JOB_DESCRIPTION = #{jobDescription,jdbcType=VARCHAR},
-		JOB_METHOD = #{jobMethod,jdbcType=VARCHAR},
+		JOB_METHOD =
+		#{jobMethod,jdbcType=VARCHAR},
 		IS_UPDATE = #{isUpdate,jdbcType=VARCHAR}
 		where JOB_ID = #{jobId,jdbcType=VARCHAR}
 	</update>

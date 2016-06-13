@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.racing.persistence.system.MenuMapper" >
+  <resultMap id="BaseResultMap" type="com.racing.model.system.Menu" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="SEQ" property="seq" jdbcType="DECIMAL" />
+    <result column="LEVL" property="levl" jdbcType="DECIMAL" />
+    <result column="PARENT" property="parent" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, URL, SEQ, LEVL, PARENT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_MENU
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_MENU
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.racing.model.system.Menu" >
+    insert into T_MENU (ID, NAME, URL, 
+      SEQ, LEVL, PARENT)
+    values (#{id,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{seq,jdbcType=DECIMAL}, #{levl,jdbcType=DECIMAL}, #{parent,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.racing.model.system.Menu" >
+    insert into T_MENU
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="url != null" >
+        URL,
+      </if>
+      <if test="seq != null" >
+        SEQ,
+      </if>
+      <if test="levl != null" >
+        LEVL,
+      </if>
+      <if test="parent != null" >
+        PARENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        #{seq,jdbcType=DECIMAL},
+      </if>
+      <if test="levl != null" >
+        #{levl,jdbcType=DECIMAL},
+      </if>
+      <if test="parent != null" >
+        #{parent,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.racing.model.system.Menu" >
+    update T_MENU
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        SEQ = #{seq,jdbcType=DECIMAL},
+      </if>
+      <if test="levl != null" >
+        LEVL = #{levl,jdbcType=DECIMAL},
+      </if>
+      <if test="parent != null" >
+        PARENT = #{parent,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.racing.model.system.Menu" >
+    update T_MENU
+    set NAME = #{name,jdbcType=VARCHAR},
+      URL = #{url,jdbcType=VARCHAR},
+      SEQ = #{seq,jdbcType=DECIMAL},
+      LEVL = #{levl,jdbcType=DECIMAL},
+      PARENT = #{parent,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -15,7 +15,7 @@
 		ignore-unresolvable="true" />
 
 	<context:component-scan base-package="com.racing.service.*.**" />
-	<context:component-scan base-package="com.racing.schedule"/>
+	<context:component-scan base-package="com.racing.schedule" />
 
 	<task:annotation-driven />
 
