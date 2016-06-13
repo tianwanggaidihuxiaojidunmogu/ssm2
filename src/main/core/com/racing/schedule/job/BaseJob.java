@@ -6,7 +6,7 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import com.racing.model.Schedule;
+import com.racing.model.schedule.Schedule;
 
 public class BaseJob implements Job {
 

@@ -23,8 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Component;
 
-import com.racing.model.Schedule;
-import com.racing.service.ScheduleService;
+import com.racing.model.schedule.Schedule;
+import com.racing.service.schedule.ScheduleService;
 
 @Component
 public class JobManager {
