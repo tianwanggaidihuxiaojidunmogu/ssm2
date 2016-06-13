@@ -1,8 +1,8 @@
-package com.racing.persistence;
+package com.racing.persistence.schedule;
 
 import java.util.List;
 
-import com.racing.model.Schedule;
+import com.racing.model.schedule.Schedule;
 import com.racing.mybatis.mapper.BaseMapper;
 
 public interface ScheduleMapper extends BaseMapper<Schedule> {

@@ -1,4 +1,4 @@
-package com.racing.model;
+package com.racing.model.schedule;
 
 import com.racing.mybatis.mapper.BaseEntity;
 import com.racing.sql.DBField;

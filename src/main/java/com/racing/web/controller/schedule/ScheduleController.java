@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.racing.model.Schedule;
+import com.racing.model.schedule.Schedule;
 import com.racing.schedule.manager.JobManager;
-import com.racing.service.ScheduleService;
+import com.racing.service.schedule.ScheduleService;
 import com.racing.web.controller.BaseController;
 
 @RestController

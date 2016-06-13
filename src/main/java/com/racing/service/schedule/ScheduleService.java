@@ -1,8 +1,8 @@
-package com.racing.service;
+package com.racing.service.schedule;
 
 import java.util.List;
 
-import com.racing.model.Schedule;
+import com.racing.model.schedule.Schedule;
 import com.racing.mybatis.service.BaseService;
 
 public interface ScheduleService extends BaseService<Schedule> {

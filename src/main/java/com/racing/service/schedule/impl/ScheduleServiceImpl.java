@@ -1,14 +1,14 @@
-package com.racing.service.impl;
+package com.racing.service.schedule.impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.racing.model.Schedule;
+import com.racing.model.schedule.Schedule;
 import com.racing.mybatis.service.impl.BaseServiceImpl;
-import com.racing.persistence.ScheduleMapper;
-import com.racing.service.ScheduleService;
+import com.racing.persistence.schedule.ScheduleMapper;
+import com.racing.service.schedule.ScheduleService;
 
 @Service
 public class ScheduleServiceImpl extends BaseServiceImpl<Schedule> implements ScheduleService {
