@@ -14,20 +14,20 @@
 			<property name="forceBigDecimals" value="false" />
 		</javaTypeResolver>
 		<!-- model package and location -->
-		<javaModelGenerator targetPackage="com.racing.model" targetProject="E:\mybatis">
+		<javaModelGenerator targetPackage="com.racing.model.system" targetProject="E:\mybatis">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
 		</javaModelGenerator>
 		<!-- mapping package and location -->
-		<sqlMapGenerator targetPackage="com.racing.persistence.mapping" targetProject="E:\mybatis">
+		<sqlMapGenerator targetPackage="mapper" targetProject="E:\mybatis">
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
 		<!-- dao package and location -->
-		<javaClientGenerator type="XMLMAPPER" targetPackage="com.racing.persistence" targetProject="E:\mybatis">
+		<javaClientGenerator type="XMLMAPPER" targetPackage="com.racing.persistence.system" targetProject="E:\mybatis">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 		<!-- table name,  change tableName and domainObjectName  -->
-		<table tableName="T_SCHEDULE" domainObjectName="Schedule" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="true" enableDeleteByPrimaryKey="true" enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true"/>
+		<table tableName="T_MENU" domainObjectName="Menu" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="true" enableDeleteByPrimaryKey="true" enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true"  />
 		
 	</context>
 </generatorConfiguration>
